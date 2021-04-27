@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ."
+    "start": "node .",
+    "dev": "nodemon ."
+  },
+  "engines": {
+    "node": "14.x"
   },
   "author": "rhisis",
   "license": "ISC",

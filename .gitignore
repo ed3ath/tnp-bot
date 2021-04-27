@@ -1,0 +1,5 @@
+node_modules
+database
+package-lock.json
+lib/list.db
+.env

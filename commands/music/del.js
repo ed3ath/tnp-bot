@@ -16,7 +16,7 @@ module.exports = {
         .setDescription(`Use \`${config.prefix}delmusic <Queue #>\``)
       return message.channel.send(`<@${message.author.id}>`, { embed })
     }
-    queue.del(Number(args[0]))
+    await queue.del(Number(args[0]) - 1)
     embed.setDescription(`:white_check_mark: \`#${Number(args[0])}\` was removed from music queue.`)
 
     message.channel.send({ embed })

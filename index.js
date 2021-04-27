@@ -8,7 +8,6 @@ const config = require('./config')
 const client = new Client()
 
 const Queue = require('./lib/queue')
-const queue = new Queue()
 
 // Create two Collections where we can store our commands and aliases in.
 // Store these collections on the client object so we can access them inside commands etc.
@@ -42,9 +41,11 @@ function loadCommands (cmdDir) {
 // Run function and pass the relative path to the 'commands' folder.
 loadCommands('commands')
 
+let queue = null
 // Client ready event
-client.on('ready', () => {
+client.on('ready', async () => {
   console.log('Bot is ready...')
+  queue = new Queue(client)
 })
 // Client message event, contains the logic for the command handler.
   .on('message', message => {
@@ -55,7 +56,7 @@ client.on('ready', () => {
     // Make sure the channel the command is called in is a text channel.
     if (message.channel.type !== 'text') return
 
-    if (!config.channels.includes(message.channel.id)) return
+    if (config.text !== message.channel.id) return
 
     /* Split the message content and store the command called, and the args.
     * The message will be split using space as arg separator.
@@ -78,6 +79,7 @@ client.on('ready', () => {
       if (!command) return
 
       // If the command exists then run the execute function inside the command file.
+
       command.execute(client, message, args, queue)
       console.log(`Ran command: ${command.name}`) // Print the command that was executed.
     } catch (err) {

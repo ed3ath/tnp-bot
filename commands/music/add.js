@@ -1,5 +1,4 @@
 const { MessageEmbed } = require('discord.js')
-const ytdl = require('ytdl-core')
 
 const config = require('../../config')
 
@@ -18,11 +17,7 @@ module.exports = {
         .setDescription(`Use \`${config.prefix}addmusic <youtube link>\``)
       return message.channel.send(`<@${message.author.id}>`, { embed })
     }
-    const songInfo = await ytdl.getInfo(args[0])
-    queue.add({
-      title: songInfo.videoDetails.title,
-      url: songInfo.videoDetails.video_url
-    })
+    const songInfo = await queue.add(args[0])
     embed.setDescription(`:white_check_mark: \`${songInfo.videoDetails.title}\` was added to music queue.`)
 
     message.channel.send({ embed })

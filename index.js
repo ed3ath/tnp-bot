@@ -54,9 +54,9 @@ client.on('ready', async () => {
   .on('message', message => {
     // Stats
 
-    if (config.stats.includes(message.channel.id)) {
+    /* if (config.stats.includes(message.channel.id)) {
       stats.add(message.author.id)
-    }
+    } */
 
     // Make sure the message contains the command prefix from the config.js.
     if (!message.content.startsWith(config.prefix)) return

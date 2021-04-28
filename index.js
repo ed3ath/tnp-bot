@@ -8,6 +8,7 @@ const config = require('./config')
 const client = new Client()
 
 const Queue = require('./lib/queue')
+const Stats = require('./lib/stats')
 
 // Create two Collections where we can store our commands and aliases in.
 // Store these collections on the client object so we can access them inside commands etc.
@@ -42,14 +43,22 @@ function loadCommands (cmdDir) {
 loadCommands('commands')
 
 let queue = null
+let stats = null
 // Client ready event
 client.on('ready', async () => {
   console.log('Bot is ready...')
   queue = new Queue(client)
+  stats = new Stats()
 })
 // Client message event, contains the logic for the command handler.
   .on('message', message => {
-    // Make sure the message contains the command prefix from the config.json.
+    // Stats
+
+    if (config.stats.includes(message.channel.id)) {
+      stats.add(message.author.id)
+    }
+
+    // Make sure the message contains the command prefix from the config.js.
     if (!message.content.startsWith(config.prefix)) return
     // Make sure the message author isn't a bot.
     if (message.author.bot) return
